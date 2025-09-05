@@ -26,15 +26,10 @@ ingredients_list = st.multiselect(
 )
 
 if ingredients_list:
-    #st.write(ingredients_list)
-    #st.text(ingredients_list)
-
     ingredients_string = ''
 
     for fruit_chosen in ingredients_list:
         ingredients_string += fruit_chosen + ' '
-
-    #st.write(ingredients_string)
 
     #add submit button so that database inserts will wait until order is complete
     time_to_insert = st.button("Submit Order")
@@ -43,15 +38,14 @@ if ingredients_list:
         #build sql insert stmnt
         my_insert_stmt = """ insert into smoothies.public.orders(ingredients, name_on_order)
                 values ('""" + ingredients_string + """','""" + name_on_order + """')"""
-    
-        #debug
-        #st.write(my_insert_stmt)  
-        #st.stop()
         
         if ingredients_string:
             session.sql(my_insert_stmt).collect()
             st.success('Your Smoothie is ordered, ' + name_on_order + '!', icon="✅")
 
 
-
+#New code to display smoothiefroot nutrition information
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
     

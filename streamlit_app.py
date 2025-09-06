@@ -20,9 +20,9 @@ session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'),(col('SEARCH_ON'))
 #st.dataframe(data=my_dataframe, use_container_width=True)
                                                                       
-#convert snowpark dataframe to pandas datafrom to be able to use LOC function
+#convert snowpark dataframe to pandas datafrom to be able to use LOC func
 pd_df = my_dataframe.to_pandas()
-st.dataframe = (pd_df)
+st.dataframe(pd_df)
 
 # multi select box for choosing fruit options
 ingredients_list = st.multiselect(
@@ -40,7 +40,7 @@ if ingredients_list:
         st.write('The search value for ', fruit_chosen, ' is ', search_on, '.')
       
         st.subheader(fruit_chosen + ' Nutrition Information')
-        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/"+ fruit_chosen)
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/"+ search_on)
         sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width = True) 
 
     #add submit button so that database inserts will wait until order is complete
